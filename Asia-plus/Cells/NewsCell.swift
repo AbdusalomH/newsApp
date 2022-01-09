@@ -25,7 +25,7 @@ class NewsCell: UICollectionViewCell {
     var newsAvatar = UIImageView()
     var newsText = UILabel()
     
-    let placeholder = "logo"
+    let placeholder = "bbc"
     
     override init(frame: CGRect) {
         super.init(frame: frame)

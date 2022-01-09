@@ -12,9 +12,16 @@ class PoliticsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemRed
+        
+        let manager = FileManager.default
+        
+        guard let url = manager.urls(for: .documentDirectory, in: .localDomainMask).first else {
+            return
+        }
+        
+        print(url.path)
+        
+        
     }
-    
-
-
 }

@@ -27,6 +27,14 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
         
         navigationController?.navigationBar.barTintColor = .systemRed
         menuController()
+        
+        let manager = FileManager.default
+        
+        guard let url = manager.urls(for: .documentDirectory, in: .localDomainMask).last else {
+            return
+        }
+        
+        print(url.path)
     }
     
     
@@ -55,15 +63,6 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        navigationController?.navigationBar.prefersLargeTitles = true
-//        navigationController?.navigationBar.backgroundColor = .systemBlue
-//        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
-//
-
-    }
-    
     func getNews() {
         self.getNewsText.removeAll()
         NetworkManager.shared.getNews { [weak self] (result) in
@@ -71,10 +70,8 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
             
             switch result {
                 case .success(let news):
-                    let category = MenuCategory()
                     DispatchQueue.main.async {
                         self.getNewsText = news.articles
-                        self.menuCategory = category.menu
                         self.mycollectionView.reloadData()
                     }
  

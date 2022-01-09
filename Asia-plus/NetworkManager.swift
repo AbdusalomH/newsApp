@@ -20,9 +20,6 @@ class NetworkManager {
     
     func getNews(completed: @escaping (Result<NewsModel, NErrors>)-> Void) {
         
-        var urlComponent = URLComponents()
-        
-        urlComponent.scheme? = "https"
         guard let endPoind = URL(string: baseUrl) else {
             completed(.failure(.Invalidnews))
             return
@@ -58,4 +55,43 @@ class NetworkManager {
         }
         session.resume()
     }
+    
+    
+    func getSportNews(comleted: @escaping (Result<SportsData, NErrors>) -> Void) {
+
+    let baseUrl = "https://newsdata.io/api/1/news?apikey=pub_3450df049649181f4ff97a9fcb463f9f6dec&q=sports"
+
+//    var components = URLComponents()
+//
+//        components.scheme = "https"
+//        components.host = "api.mediastack.com"
+//        components.path = "v1/news?"
+//        components.queryItems = "access_key=d8b9691b8e01182cd8748ad22ceda6e5"
+//    }
+
+        guard let url = URL(string: baseUrl) else {return}
+
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if error != nil  {
+                
+                comleted(.failure(.InvalidResponse))
+            }
+
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {return}
+
+            guard let data = data else {return}
+
+            do {
+                let decoder = JSONDecoder()
+                let sportsData =  try decoder.decode(SportsData.self, from: data)
+                comleted(.success(sportsData))
+            }
+            catch {
+                print(error)
+                comleted(.failure(.InvalidData))
+            }
+        }
+        task.resume()
+    }
 }
+
