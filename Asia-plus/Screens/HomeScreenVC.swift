@@ -9,6 +9,7 @@ import UIKit
 
 class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
+
     var mycollectionView: UICollectionView!
     
     var getNewsText: [Article] = [Article]()
@@ -83,17 +84,28 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
     
     func configureCollectioView() {
         
-        let mainCollection: CGRect = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
-        mycollectionView = UICollectionView(frame: mainCollection, collectionViewLayout: flowLayoutConfigure())
-        view.addSubview(mycollectionView)
+        mycollectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayoutConfigure())
+        collectionViewPlacing()
         mycollectionView.delegate         = self
         mycollectionView.dataSource       = self
         mycollectionView.backgroundColor  = .systemRed
         mycollectionView.register(NewsCell.self, forCellWithReuseIdentifier: NewsCell.reuseID)
         
-        
     }
- 
+    
+    func collectionViewPlacing() {
+        view.addSubview(mycollectionView)
+        mycollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            mycollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            mycollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            mycollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            mycollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+        
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return getNewsText.count
     

@@ -13,8 +13,8 @@ class SportNewsCell: UICollectionViewCell {
     
     let placeholder = "bbc"
     
-    let sportsImage = UIImageView()
-    let sportsNews = UILabel()
+    var sportsImage = UIImageView()
+    var sportsNews = UILabel()
         
     var newValue: URLSessionDataTask?
     
@@ -61,13 +61,20 @@ class SportNewsCell: UICollectionViewCell {
     }
     
     func getImage(imgUrl: String?) {
+        
         guard let image = imgUrl else {return}
         let cacheKey = NSString(string: image)
+        
         if let image1 = NewsCell.cache.object(forKey: cacheKey) {
+            
             self.sportsImage.image = image1
+            
             return
+            
         } else {
+            
             self.sportsImage.image = UIImage(named: placeholder)
+            
         }
         
         guard let baseUrl = imgUrl else {return}

@@ -43,7 +43,7 @@ class SportsVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
         let sports = sportsData[indexPath.item]
         
-        cell.getImage(imgUrl: sports.imageURL)
+        cell.getImage(imgUrl: sports.imageUrl)
         cell.sportsNews.text = sports.title
         
         return cell
@@ -82,7 +82,6 @@ class SportsVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
             guard let self = self else {return}
             switch result {
             case .success(let sports):
-                print(sports)
                 DispatchQueue.main.async {
                     self.sportsData = sports.results
                     self.collectioView.reloadData()

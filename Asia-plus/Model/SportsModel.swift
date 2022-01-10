@@ -19,5 +19,5 @@ struct SportsData: Codable {
 struct Results: Codable {
     let title: String
     let content: String?
-    let imageURL: String?
+    let imageUrl: String?
 }

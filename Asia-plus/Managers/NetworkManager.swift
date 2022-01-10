@@ -14,6 +14,9 @@ class NetworkManager {
     
     static let shared = NetworkManager()
     
+    private init(){
+        
+    }
     
     private let baseUrl = "https://newsapi.org/v2/top-headlines?country=us&apiKey=c8484d89ac4d40d09d38390b62889c92"
     
@@ -83,6 +86,7 @@ class NetworkManager {
 
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let sportsData =  try decoder.decode(SportsData.self, from: data)
                 comleted(.success(sportsData))
             }
