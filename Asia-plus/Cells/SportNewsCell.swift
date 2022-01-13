@@ -62,13 +62,13 @@ class SportNewsCell: UICollectionViewCell {
     
     func getImage(imgUrl: String?) {
         
-        guard let image = imgUrl else {return}
-        let cacheKey = NSString(string: image)
+        
+        guard let images = imgUrl else {return}
+        let cacheKey = NSString(string: images)
         
         if let image1 = NewsCell.cache.object(forKey: cacheKey) {
             
             self.sportsImage.image = image1
-            
             return
             
         } else {
@@ -99,3 +99,7 @@ class SportNewsCell: UICollectionViewCell {
         self.newValue = task
     }
 }
+
+
+
+

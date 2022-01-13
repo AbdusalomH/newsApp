@@ -10,7 +10,7 @@ import Foundation
 enum NErrors: String, Error {
     
     case Invalidnews = "Error here"
-    case InvalidResponse = "Invalid response"
+    case InvalidResponse = "Invalid response here"
     case InvalidData = "Invalid data"
   
 }

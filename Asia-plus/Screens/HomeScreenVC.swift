@@ -15,9 +15,8 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
     var getNewsText: [Article] = [Article]()
     var menuCategory: [String] = [String]()
     
-
-    
-    override func viewDidLoad() {
+ 
+ override func viewDidLoad() {
         super.viewDidLoad()
         title = "N E W S"
         
@@ -29,13 +28,8 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
         navigationController?.navigationBar.barTintColor = .systemRed
         menuController()
         
-        let manager = FileManager.default
+        createContainderForImagesOnFileManager()
         
-        guard let url = manager.urls(for: .documentDirectory, in: .localDomainMask).last else {
-            return
-        }
-        
-        print(url.path)
     }
     
     
@@ -64,6 +58,7 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
         }
     }
     
+    
     func getNews() {
         self.getNewsText.removeAll()
         NetworkManager.shared.getNews { [weak self] (result) in
@@ -81,17 +76,19 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
             }
         }
     }
+   
     
     func configureCollectioView() {
         
         mycollectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayoutConfigure())
         collectionViewPlacing()
-        mycollectionView.delegate         = self
-        mycollectionView.dataSource       = self
-        mycollectionView.backgroundColor  = .systemRed
+        mycollectionView.delegate           = self
+        mycollectionView.dataSource         = self
+        mycollectionView.backgroundColor    = .systemRed
         mycollectionView.register(NewsCell.self, forCellWithReuseIdentifier: NewsCell.reuseID)
         
     }
+ 
     
     func collectionViewPlacing() {
         view.addSubview(mycollectionView)
@@ -132,6 +129,16 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
         flowLayout.itemSize         = CGSize(width: availableSpace, height: 270)
         return flowLayout
     
+    }
+    
+    func createContainderForImagesOnFileManager(){
+        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("photosFolder")
+        do {
+            
+        }
+        if !FileManager.default.fileExists(atPath: path.absoluteString) {
+        try! FileManager.default.createDirectory(at: path, withIntermediateDirectories: true, attributes: nil)
+        }
     }
 }
 

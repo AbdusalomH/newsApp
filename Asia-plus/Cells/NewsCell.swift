@@ -19,7 +19,7 @@ class NewsCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         newValue?.cancel()
-        
+
     }
     
     var newsAvatar = UIImageView()
@@ -77,15 +77,23 @@ class NewsCell: UICollectionViewCell {
     
     
     func downloadImage(data: String?) {
+                                
+        guard let image2 = data else {return}
+        print()
+       
+        let cacheKey = NSString(string: image2)
         
-        guard let image = data else {return}
-        let cacheKey = NSString(string: image)
         if let image1 = NewsCell.cache.object(forKey: cacheKey) {
+           
             self.newsAvatar.image = image1
             return
+            
         } else {
+            
             self.newsAvatar.image = UIImage(named: placeholder)
+        
         }
+
         
         guard let baseUrl = data else {return}
         
@@ -102,12 +110,68 @@ class NewsCell: UICollectionViewCell {
             
             NewsCell.cache.setObject(image, forKey: cacheKey)
             
-            DispatchQueue.main.async {
-                self.newsAvatar.image = image
+            DispatchQueue.global(qos: .background).async {
+               
+                self.store(image: image, key: image2)
+                
+                DispatchQueue.main.async {
+            
+                    self.newsAvatar.image = image
+                
+                }
             }
         }
+        
         task.resume()
         self.newValue = task
     }
+    
+    func filePath(forKey key: String) -> URL? {
+        let fileManager = FileManager.default
+        guard let documentURL = fileManager.urls(for: .documentDirectory,
+                                                in: FileManager.SearchPathDomainMask.userDomainMask).first else { return nil }
+
+        return documentURL.appendingPathComponent(key)
+    }
+    
+    func store(image: UIImage, key: String) {
+        
+        guard let pngRepresentation = image.jpegData(compressionQuality: 1) else {return}
+
+        if let filePath = filePath(forKey: key) {
+            do  {
+                try pngRepresentation.write(to: filePath, options: .atomic)
+            } catch let err {
+                print("Saving file resulted in error: ", err)
+            }
+        }
+    }
+    
+    func getLocalImage(key: String) -> UIImage? {
+        
+        let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        let imageExist = directory.appendingPathComponent(key)
+        
+        do {
+            let imageData = try Data(contentsOf: imageExist)
+            
+            return UIImage(data: imageData)
+            
+        } catch {
+            print(error)
+        }
+        return nil
+    }
 }
+
+
+
+    
+ 
+
+
+
+
+
 
