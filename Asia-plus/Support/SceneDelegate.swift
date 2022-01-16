@@ -25,48 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     }
     
-    func navBarPolitics() -> UINavigationController {
-        
-        let navPolitics = PoliticsVC()
-        
-        navPolitics.tabBarItem = UITabBarItem(title: "P o l i t i c s", image: UIImage(systemName: "pencil.circle"), selectedImage: UIImage(systemName: "pencil.circle.fill"))
-        
-        return UINavigationController(rootViewController: navPolitics)
-        
-    }
-    
-    
-    func navBarSports() -> UINavigationController {
-        
-        let navSports = SportsVC()
-        
-        navSports.tabBarItem = UITabBarItem(title: "S p o r t s", image: UIImage(systemName: "sportscourt"), selectedImage: UIImage(systemName: "sportscourt.fill"))
-        
-        return UINavigationController(rootViewController: navSports)
-    }
-    
-    
-    func mainVC() -> UINavigationController {
-        
-        let mainVC = HomeScreenVC()
-        
-        mainVC.tabBarItem = UITabBarItem(title: "N E W S ", image: UIImage(systemName: "books.vertical"), selectedImage: UIImage(systemName: "books.vertical.fill"))
-        
-        return UINavigationController(rootViewController: mainVC)
-    }
-    
-    
-    func tabBarItemsMenu() -> UITabBarController {
-        
-        let tabbar = UITabBarController()
-        tabbar.viewControllers = [mainVC(), navBarPolitics(), navBarSports()]
-        tabbar.tabBar.tintColor = .red
-        
-        
-        return tabbar
-    }
 
-    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

@@ -14,9 +14,9 @@ class NetworkManager {
     
     static let shared = NetworkManager()
     
-    private init(){
-        
-    }
+//    private init(){
+//
+//    }
     
     private let baseUrl = "https://newsapi.org/v2/top-headlines?country=us&apiKey=c8484d89ac4d40d09d38390b62889c92"
     

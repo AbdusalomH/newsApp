@@ -10,6 +10,8 @@ import UIKit
 
 class TabbarVC: UITabBarController {
     
+    let networkManager = NetworkManager()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +44,7 @@ class TabbarVC: UITabBarController {
     
     func mainVC() -> UINavigationController {
         
-        let mainVC = HomeScreenVC()
+        let mainVC = HomeScreenVC(networkManager: networkManager)
         
         mainVC.tabBarItem = UITabBarItem(title: "N E W S ", image: UIImage(systemName: "books.vertical"), selectedImage: UIImage(systemName: "books.vertical.fill"))
         

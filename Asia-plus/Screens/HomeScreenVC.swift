@@ -8,7 +8,18 @@
 import UIKit
 
 class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-
+    
+    var networkManager: NetworkManager
+    
+    init(networkManager: NetworkManager) {
+        self.networkManager = networkManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 
     var mycollectionView: UICollectionView!
     
@@ -21,14 +32,14 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
         title = "N E W S"
         
         configureCollectioView()
-        getNews()
+        getNews2()
         mycollectionView.refreshControl = UIRefreshControl()
         mycollectionView.refreshControl?.addTarget(self, action: #selector(getRefresh), for: .valueChanged)
         
         navigationController?.navigationBar.barTintColor = .systemRed
         menuController()
         
-        createContainderForImagesOnFileManager()
+        //createContainderForImagesOnFileManager()
         
     }
     
@@ -51,7 +62,7 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
     
     
     @objc private func getRefresh() {
-        getNews()
+        getNews2()
         DispatchQueue.main.async {
             self.mycollectionView.refreshControl?.endRefreshing()
             self.mycollectionView.reloadData()
@@ -59,9 +70,27 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
     }
     
     
-    func getNews() {
-        self.getNewsText.removeAll()
-        NetworkManager.shared.getNews { [weak self] (result) in
+//    func getNews() {
+//        self.getNewsText.removeAll()
+//
+//        NetworkManager.shared.getNews { [weak self] (result) in
+//            guard let self = self else { return }
+//
+//            switch result {
+//                case .success(let news):
+//                    DispatchQueue.main.async {
+//                        self.getNewsText = news.articles
+//                        self.mycollectionView.reloadData()
+//                    }
+//
+//                case .failure(let error):
+//                print(error)
+//            }
+//        }
+//    }
+    
+    func getNews2() {
+        networkManager.getNews { [weak self] (result) in
             guard let self = self else { return }
             
             switch result {
@@ -114,7 +143,7 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
         let cell = mycollectionView.dequeueReusableCell(withReuseIdentifier: NewsCell.reuseID, for: indexPath) as! NewsCell
         let newshere        = self.getNewsText[indexPath.item]
         cell.newsText.text  = newshere.title
-        cell.downloadImage(data: newshere.urlToImage)
+        cell.downloadImage(data: newshere.urlToImage, title: newshere.title)
         return cell
         
     }
@@ -133,9 +162,7 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
     
     func createContainderForImagesOnFileManager(){
         let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("photosFolder")
-        do {
-            
-        }
+        
         if !FileManager.default.fileExists(atPath: path.absoluteString) {
         try! FileManager.default.createDirectory(at: path, withIntermediateDirectories: true, attributes: nil)
         }

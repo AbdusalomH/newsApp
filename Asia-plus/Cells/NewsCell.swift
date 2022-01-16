@@ -76,25 +76,29 @@ class NewsCell: UICollectionViewCell {
     }
     
     
-    func downloadImage(data: String?) {
+    func downloadImage(data: String?, title: String) {
                                 
-        guard let image2 = data else {return}
-        print()
-       
-        let cacheKey = NSString(string: image2)
+//        guard let image2 = data else {return}
+//
+//        let cacheKey = NSString(string: image2)
+//
+//        if let image1 = NewsCell.cache.object(forKey: cacheKey) {
+//
+//            self.newsAvatar.image = image1
+//            return
+//        } else {
+//
+//            self.newsAvatar.image = UIImage(named: placeholder)
+//        }
         
-        if let image1 = NewsCell.cache.object(forKey: cacheKey) {
-           
-            self.newsAvatar.image = image1
+        if let image = getLocalImage(key: title) {
+            newsAvatar.image = image
+            print("Successfully added")
             return
-            
         } else {
-            
-            self.newsAvatar.image = UIImage(named: placeholder)
-        
+            newsAvatar.image = UIImage(named: placeholder)
         }
 
-        
         guard let baseUrl = data else {return}
         
         guard let endpoint = URL(string: baseUrl) else {return}
@@ -108,12 +112,12 @@ class NewsCell: UICollectionViewCell {
             guard let data = data else {return}
             guard let image = UIImage(data: data) else {return}
             
-            NewsCell.cache.setObject(image, forKey: cacheKey)
+            //NewsCell.cache.setObject(image, forKey: cacheKey)
             
             DispatchQueue.global(qos: .background).async {
-               
-                self.store(image: image, key: image2)
                 
+                self.store(image: image, key: title)
+                               
                 DispatchQueue.main.async {
             
                     self.newsAvatar.image = image
@@ -129,40 +133,47 @@ class NewsCell: UICollectionViewCell {
     func filePath(forKey key: String) -> URL? {
         let fileManager = FileManager.default
         guard let documentURL = fileManager.urls(for: .documentDirectory,
-                                                in: FileManager.SearchPathDomainMask.userDomainMask).first else { return nil }
+                                                 in: .userDomainMask).first else { return nil }
 
-        return documentURL.appendingPathComponent(key)
+        return documentURL.appendingPathComponent(key).appendingPathExtension("jpg")
     }
-    
+
     func store(image: UIImage, key: String) {
-        
+
         guard let pngRepresentation = image.jpegData(compressionQuality: 1) else {return}
 
         if let filePath = filePath(forKey: key) {
             do  {
                 try pngRepresentation.write(to: filePath, options: .atomic)
+                print("Successfully saved")
+                
+                print(filePath)
             } catch let err {
                 print("Saving file resulted in error: ", err)
+                print(err.localizedDescription)
             }
         }
     }
-    
+
     func getLocalImage(key: String) -> UIImage? {
-        
+
         let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
-        let imageExist = directory.appendingPathComponent(key)
+        let imageExist = directory.appendingPathComponent(key).appendingPathExtension("jpg")
         
+        print(imageExist)
+
         do {
             let imageData = try Data(contentsOf: imageExist)
-            
+
             return UIImage(data: imageData)
-            
+
         } catch {
-            print(error)
+            print("No photo on local Directrory. \(error)")
         }
         return nil
     }
+
 }
 
 

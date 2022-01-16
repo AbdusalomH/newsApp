@@ -19,7 +19,7 @@ struct NewsModel: Codable, Hashable {
 struct Article: Codable, Hashable {
     let source: Source?
     let author: String?
-    let title: String?
+    let title: String
     let articleDescription: String?
     let url: String?
     let urlToImage: String?
