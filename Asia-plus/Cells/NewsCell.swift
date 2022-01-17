@@ -9,6 +9,8 @@ import UIKit
 
 class NewsCell: UICollectionViewCell {
     
+    let imageCache = ImageCache()
+    
     
     static let reuseID = "NewsCell"
     
@@ -91,12 +93,16 @@ class NewsCell: UICollectionViewCell {
 //            self.newsAvatar.image = UIImage(named: placeholder)
 //        }
         
-        if let image = getLocalImage(key: title) {
+        if let image = imageCache.getLocalImage(key: title) {
+            
             newsAvatar.image = image
             print("Successfully added")
             return
+            
         } else {
+            
             newsAvatar.image = UIImage(named: placeholder)
+            
         }
 
         guard let baseUrl = data else {return}
@@ -116,7 +122,7 @@ class NewsCell: UICollectionViewCell {
             
             DispatchQueue.global(qos: .background).async {
                 
-                self.store(image: image, key: title)
+                self.imageCache.store(image: image, key: title)
                                
                 DispatchQueue.main.async {
             
@@ -125,55 +131,9 @@ class NewsCell: UICollectionViewCell {
                 }
             }
         }
-        
         task.resume()
         self.newValue = task
     }
-    
-    func filePath(forKey key: String) -> URL? {
-        let fileManager = FileManager.default
-        guard let documentURL = fileManager.urls(for: .documentDirectory,
-                                                 in: .userDomainMask).first else { return nil }
-
-        return documentURL.appendingPathComponent(key).appendingPathExtension("jpg")
-    }
-
-    func store(image: UIImage, key: String) {
-
-        guard let pngRepresentation = image.jpegData(compressionQuality: 1) else {return}
-
-        if let filePath = filePath(forKey: key) {
-            do  {
-                try pngRepresentation.write(to: filePath, options: .atomic)
-                print("Successfully saved")
-                
-                print(filePath)
-            } catch let err {
-                print("Saving file resulted in error: ", err)
-                print(err.localizedDescription)
-            }
-        }
-    }
-
-    func getLocalImage(key: String) -> UIImage? {
-
-        let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-
-        let imageExist = directory.appendingPathComponent(key).appendingPathExtension("jpg")
-        
-        print(imageExist)
-
-        do {
-            let imageData = try Data(contentsOf: imageExist)
-
-            return UIImage(data: imageData)
-
-        } catch {
-            print("No photo on local Directrory. \(error)")
-        }
-        return nil
-    }
-
 }
 
 

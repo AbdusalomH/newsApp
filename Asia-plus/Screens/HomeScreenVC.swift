@@ -38,9 +38,7 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
         
         navigationController?.navigationBar.barTintColor = .systemRed
         menuController()
-        
-        //createContainderForImagesOnFileManager()
-        
+                
     }
     
     
@@ -109,7 +107,7 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
     
     func configureCollectioView() {
         
-        mycollectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayoutConfigure())
+        mycollectionView = UICollectionView(frame: .zero, collectionViewLayout: FlowlayutClass.flowLayoutConfigure(in: view))
         collectionViewPlacing()
         mycollectionView.delegate           = self
         mycollectionView.dataSource         = self
@@ -146,26 +144,6 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
         cell.downloadImage(data: newshere.urlToImage, title: newshere.title)
         return cell
         
-    }
-    
-   
-    func flowLayoutConfigure() -> UICollectionViewLayout {
-        let width                   = view.bounds.width
-        let usedPadding: CGFloat    = 10
-        let availableSpace: CGFloat = width - usedPadding
-        let flowLayout              = UICollectionViewFlowLayout()
-        flowLayout.sectionInset     = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        flowLayout.itemSize         = CGSize(width: availableSpace, height: 270)
-        return flowLayout
-    
-    }
-    
-    func createContainderForImagesOnFileManager(){
-        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("photosFolder")
-        
-        if !FileManager.default.fileExists(atPath: path.absoluteString) {
-        try! FileManager.default.createDirectory(at: path, withIntermediateDirectories: true, attributes: nil)
-        }
     }
 }
 
