@@ -16,6 +16,7 @@ class NewsArticleText: UIViewController {
     let newsImage = UIImageView()
     let contentTitle = UILabel()
     let contentText = UILabel()
+    let scrolViewofImage = UIScrollView()
     
   
     init(url:String, articleTitle: String) {
@@ -33,11 +34,27 @@ class NewsArticleText: UIViewController {
         super.viewDidLoad()
         configureNews()
         view.backgroundColor = .systemYellow
+        doneButton()
     }
+    
+    
+    func doneButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .done, target: self, action: #selector(sideMenu))
+        
+        navigationItem.rightBarButtonItem?.tintColor = .black
+    }
+    
+    @objc func sideMenu() {
+        dismiss(animated: true, completion: nil)
+    }
+    
     
     func configureNews(){
         
-        view.addSubview(newsImage)
+        view.addSubview(scrolViewofImage)
+        scrolViewofImage.addSubview(newsImage)
+        
+        //view.addSubview(newsImage)
         view.addSubview(contentTitle)
         view.addSubview(contentText)
         
@@ -46,16 +63,26 @@ class NewsArticleText: UIViewController {
         contentTitle.text = "BBC news"
         contentText.text = "text of news should be here"
         
-        newsImage.translatesAutoresizingMaskIntoConstraints     = false
-        contentText.translatesAutoresizingMaskIntoConstraints   = false
-        contentTitle.translatesAutoresizingMaskIntoConstraints  = false
+
+        
+        
+        
+        newsImage.translatesAutoresizingMaskIntoConstraints         = false
+        contentText.translatesAutoresizingMaskIntoConstraints       = false
+        contentTitle.translatesAutoresizingMaskIntoConstraints      = false
+        scrolViewofImage.translatesAutoresizingMaskIntoConstraints  = false
         
         NSLayoutConstraint.activate([
+            
+            scrolViewofImage.topAnchor.constraint(equalTo: view.topAnchor),
+            scrolViewofImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrolViewofImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrolViewofImage.heightAnchor.constraint(equalTo: newsImage.widthAnchor),
         
-            newsImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            newsImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            newsImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            newsImage.heightAnchor.constraint(equalTo: newsImage.widthAnchor),
+            newsImage.topAnchor.constraint(equalTo: scrolViewofImage.topAnchor, constant: 10),
+            newsImage.leadingAnchor.constraint(equalTo: scrolViewofImage.leadingAnchor, constant: 10),
+            newsImage.trailingAnchor.constraint(equalTo: scrolViewofImage.trailingAnchor, constant: -10),
+            newsImage.heightAnchor.constraint(equalTo: scrolViewofImage.widthAnchor),
             
             contentTitle.topAnchor.constraint(equalTo: newsImage.bottomAnchor, constant: 20),
             contentTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),

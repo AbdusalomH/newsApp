@@ -43,7 +43,7 @@ class SportsVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
         let sports = sportsData[indexPath.item]
         
-        cell.getImage(imgUrl: sports.imageUrl)
+        cell.getImage(imgUrl: sports.imageUrl, key: sports.title)
         cell.sportsNews.text = sports.title
         
         return cell
@@ -52,7 +52,7 @@ class SportsVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     func configureCollectioView() {
         
-        collectioView = UICollectionView(frame: view.bounds, collectionViewLayout: flowLayoutConfigure())
+        collectioView = UICollectionView(frame: view.bounds, collectionViewLayout: FlowlayutClass.flowLayoutConfigure(in: view))
         view.addSubview(collectioView)
         collectioView.delegate = self
         collectioView.dataSource = self
@@ -61,19 +61,19 @@ class SportsVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     }
     
     
-    func flowLayoutConfigure() -> UICollectionViewLayout {
-        
-        let width                       = view.bounds.width
-        let availableWidth: CGFloat     = width - 20
-        
-        let flowlayut                   = UICollectionViewFlowLayout()
-        flowlayut.scrollDirection       = .vertical
-        flowlayut.sectionInset          = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        flowlayut.itemSize              = CGSize(width: availableWidth, height: 270)
-        
-        return flowlayut
-        
-    }
+//    func flowLayoutConfigure() -> UICollectionViewLayout {
+//
+//        let width                       = view.bounds.width
+//        let availableWidth: CGFloat     = width - 20
+//
+//        let flowlayut                   = UICollectionViewFlowLayout()
+//        flowlayut.scrollDirection       = .vertical
+//        flowlayut.sectionInset          = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+//        flowlayut.itemSize              = CGSize(width: availableWidth, height: 270)
+//
+//        return flowlayut
+//
+//    }
     
     
     func getSporstNews() {

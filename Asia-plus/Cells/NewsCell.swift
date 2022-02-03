@@ -9,19 +9,19 @@ import UIKit
 
 class NewsCell: UICollectionViewCell {
     
-    let imageCache = ImageCache()
-    
     
     static let reuseID = "NewsCell"
     
     static var cache = NSCache<NSString, UIImage>()
     
+    let imageCache = ImageCache()
+    
     var newValue: URLSessionDataTask?
+    
     
     override func prepareForReuse() {
         super.prepareForReuse()
         newValue?.cancel()
-
     }
     
     var newsAvatar = UIImageView()
@@ -77,32 +77,41 @@ class NewsCell: UICollectionViewCell {
         ])
     }
     
-    
     func downloadImage(data: String?, title: String) {
-                                
-//        guard let image2 = data else {return}
-//
-//        let cacheKey = NSString(string: image2)
-//
-//        if let image1 = NewsCell.cache.object(forKey: cacheKey) {
-//
-//            self.newsAvatar.image = image1
-//            return
-//        } else {
-//
-//            self.newsAvatar.image = UIImage(named: placeholder)
-//        }
-        
-        if let image = imageCache.getLocalImage(key: title) {
+      
+            guard let image2 = data else {return}
             
+            let cacheKey = NSString(string: image2)
+    
+            if let image1 = NewsCell.cache.object(forKey: cacheKey) {
+    
+                self.newsAvatar.image = image1
+                
+                return
+                
+            } else {
+    
+                self.newsAvatar.image = UIImage(named: placeholder)
+            }
+        
+        if let image = imageCache.getLocalImage(ket: title) {
+
             newsAvatar.image = image
             print("Successfully added")
             return
+
+        } else {
+
+            newsAvatar.image = UIImage(named: placeholder)
+        }
+        if let image = imageCache.getCachedImages(imageTitle: title) {
+            DispatchQueue.main.async {
+                self.newsAvatar.image = image
+            }
+            return
             
         } else {
-            
             newsAvatar.image = UIImage(named: placeholder)
-            
         }
 
         guard let baseUrl = data else {return}
@@ -118,14 +127,20 @@ class NewsCell: UICollectionViewCell {
             guard let data = data else {return}
             guard let image = UIImage(data: data) else {return}
             
+            
+            
+            
             //NewsCell.cache.setObject(image, forKey: cacheKey)
             
             DispatchQueue.global(qos: .background).async {
-                
                 self.imageCache.store(image: image, key: title)
+                self.imageCache.deleteItems(imageName: title)
+              
+                //self.imageCache.cacheSaving(imageUrl: image, imageTitle: title)
+                //self.imageCache.otherLocalStorage(image: image, imageTitle: title)
+                //self.imageCache.otherLocalStorage2(image: image, imageTitle: title)
                                
                 DispatchQueue.main.async {
-            
                     self.newsAvatar.image = image
                 
                 }

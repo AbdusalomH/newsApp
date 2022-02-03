@@ -9,6 +9,8 @@ import UIKit
 
 class SportNewsCell: UICollectionViewCell {
     
+    let imageCache = ImageCache()
+    
     static let reuseID = "SportsCell"
     
     let placeholder = "bbc"
@@ -60,22 +62,31 @@ class SportNewsCell: UICollectionViewCell {
         ])
     }
     
-    func getImage(imgUrl: String?) {
+    func getImage(imgUrl: String?, key: String) {
         
         
-        guard let images = imgUrl else {return}
-        let cacheKey = NSString(string: images)
-        
-        if let image1 = NewsCell.cache.object(forKey: cacheKey) {
+//        guard let images = imgUrl else {return}
+//        let cacheKey = NSString(string: images)
+//
+//        if let image1 = NewsCell.cache.object(forKey: cacheKey) {
+//
+//            self.sportsImage.image = image1
+//            return
+//
+//        } else {
+//
+//            self.sportsImage.image = UIImage(named: placeholder)
+//
+//        }
+        if let image = imageCache.getLocalImage(ket: key) {
             
-            self.sportsImage.image = image1
+            sportsImage.image = image
             return
-            
+        
         } else {
-            
-            self.sportsImage.image = UIImage(named: placeholder)
-            
+            sportsImage.image = UIImage(named: placeholder)
         }
+        
         
         guard let baseUrl = imgUrl else {return}
         
@@ -90,10 +101,14 @@ class SportNewsCell: UICollectionViewCell {
             guard let data = data else {return}
             guard let image = UIImage(data: data) else {return}
             
-            NewsCell.cache.setObject(image, forKey: cacheKey)
-            DispatchQueue.main.async {
-                self.sportsImage.image = image
+            //NewsCell.cache.setObject(image, forKey: cacheKey)
+            DispatchQueue.global(qos: .background).async {
+                self.imageCache.store(image: image, key: key)
+                DispatchQueue.main.async {
+                    self.sportsImage.image = image
+                }
             }
+            
         }
         task.resume()
         self.newValue = task

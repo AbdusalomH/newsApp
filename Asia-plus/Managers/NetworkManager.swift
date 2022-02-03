@@ -64,13 +64,6 @@ class NetworkManager {
 
     let baseUrl = "https://newsdata.io/api/1/news?apikey=pub_3450df049649181f4ff97a9fcb463f9f6dec&q=sports"
 
-//    var components = URLComponents()
-//
-//        components.scheme = "https"
-//        components.host = "api.mediastack.com"
-//        components.path = "v1/news?"
-//        components.queryItems = "access_key=d8b9691b8e01182cd8748ad22ceda6e5"
-//    }
 
         guard let url = URL(string: baseUrl) else {return}
 
@@ -97,5 +90,6 @@ class NetworkManager {
         }
         task.resume()
     }
+
 }
 

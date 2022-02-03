@@ -52,9 +52,13 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
     
     @objc func sideMenu() {
         
-        let sideMenu = NewsArticleText(url: "ok", articleTitle: "ok")
+        let sideMenu = Test()
+        
+        //let sideMenu = UINavigationController(rootViewController: Test())
         
         navigationController?.pushViewController(sideMenu, animated: true)
+        
+        //present(sideMenu, animated: true, completion: nil)
         
     }
     
@@ -128,7 +132,6 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
             mycollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-        
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return getNewsText.count
@@ -143,6 +146,22 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
         cell.newsText.text  = newshere.title
         cell.downloadImage(data: newshere.urlToImage, title: newshere.title)
         return cell
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        let newsData = getNewsText[indexPath.row]
+        let newsDetails = NewsDetails(imageName: newsData.title, dataofImage: newsData.urlToImage!)
+        navigationController?.pushViewController(newsDetails, animated: true)
+    }
+    
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        guard previousTraitCollection?.horizontalSizeClass != previousTraitCollection?.verticalSizeClass else {return}
+        
         
     }
 }
