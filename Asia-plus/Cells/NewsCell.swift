@@ -14,7 +14,7 @@ class NewsCell: UICollectionViewCell {
     
     static var cache = NSCache<NSString, UIImage>()
     
-    let imageCache = ImageCache()
+    static let imageCache = ImageCache()
     
     var newValue: URLSessionDataTask?
     
@@ -23,6 +23,7 @@ class NewsCell: UICollectionViewCell {
         super.prepareForReuse()
         newValue?.cancel()
     }
+
     
     var newsAvatar = UIImageView()
     var newsText = UILabel()
@@ -32,14 +33,18 @@ class NewsCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
+        
     }
+    
+//    required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)
+//        configure()
+//    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 
-    
     func configure() {
         
         addSubview(newsAvatar)
@@ -48,53 +53,58 @@ class NewsCell: UICollectionViewCell {
         newsAvatar.translatesAutoresizingMaskIntoConstraints = false
         newsText.translatesAutoresizingMaskIntoConstraints = false
         
-        
-        let padding: CGFloat = 10
-        
         newsText.numberOfLines = 3
         newsText.adjustsFontSizeToFitWidth = true
-        newsAvatar.contentMode = .scaleToFill
+        
         newsAvatar.layer.cornerRadius = 5
+        newsAvatar.clipsToBounds = true
+        newsAvatar.contentMode = .scaleAspectFit
+        setNeedsDisplay()
         newsAvatar.layer.needsDisplayOnBoundsChange = true
-        newsAvatar.layer.masksToBounds = true
-
-  
+        
+        
+ 
         newsAvatar.image = UIImage(named: placeholder)
-        
-
+            
         NSLayoutConstraint.activate([
-        
-            newsAvatar.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
-            newsAvatar.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: padding),
-            newsAvatar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            newsAvatar.heightAnchor.constraint(equalTo: newsAvatar.widthAnchor, multiplier: 0.56),
+            
+//            newsAvatar.topAnchor.constraint(equalTo: contentView.topAnchor),
+//            newsAvatar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+//            newsAvatar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+//            newsAvatar.heightAnchor.constraint(equalToConstant: 220),
+            
+//            newsAvatar.widthAnchor.constraint(equalTo: newsAvatar.widthAnchor, multiplier: 0.5),
+//            newsAvatar.heightAnchor.constraint(equalToConstant: 50),
+//            newsAvatar.widthAnchor.constraint(equalToConstant: 50),
+            
+            newsAvatar.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
+            newsAvatar.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor),
+            newsAvatar.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor),
+            newsAvatar.heightAnchor.constraint(equalTo: newsAvatar.widthAnchor, multiplier: 0.54),
             
             newsText.topAnchor.constraint(equalTo: newsAvatar.bottomAnchor, constant: 10),
-            newsText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            newsText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            newsText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding)
-        
+            newsText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            newsText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            newsText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     
     func downloadImage(data: String?, title: String) {
       
-            guard let image2 = data else {return}
-            
-            let cacheKey = NSString(string: image2)
+        guard let image2 = data else {return}
+        let cacheKey = NSString(string: image2)
     
-            if let image1 = NewsCell.cache.object(forKey: cacheKey) {
+        if let image1 = NewsCell.cache.object(forKey: cacheKey) {
     
-                self.newsAvatar.image = image1
+            self.newsAvatar.image = image1
+            return
                 
-                return
-                
-            } else {
+        } else {
     
-                self.newsAvatar.image = UIImage(named: placeholder)
-            }
+            self.newsAvatar.image = UIImage(named: placeholder)
+        }
         
-        if let image = imageCache.getLocalImage(ket: title) {
+        if let image = NewsCell.imageCache.getLocalImage(ket: title) {
 
             newsAvatar.image = image
             print("Successfully added")
@@ -104,13 +114,17 @@ class NewsCell: UICollectionViewCell {
 
             newsAvatar.image = UIImage(named: placeholder)
         }
-        if let image = imageCache.getCachedImages(imageTitle: title) {
+        
+        
+        if let image = ImageCacheLibrary.getCachedImages(imageTitle: title) {
+            
             DispatchQueue.main.async {
                 self.newsAvatar.image = image
             }
             return
             
         } else {
+            
             newsAvatar.image = UIImage(named: placeholder)
         }
 
@@ -126,24 +140,12 @@ class NewsCell: UICollectionViewCell {
             
             guard let data = data else {return}
             guard let image = UIImage(data: data) else {return}
-            
-            
-            
-            
-            //NewsCell.cache.setObject(image, forKey: cacheKey)
-            
-            DispatchQueue.global(qos: .background).async {
-                self.imageCache.store(image: image, key: title)
-                self.imageCache.deleteItems(imageName: title)
-              
-                //self.imageCache.cacheSaving(imageUrl: image, imageTitle: title)
-                //self.imageCache.otherLocalStorage(image: image, imageTitle: title)
-                //self.imageCache.otherLocalStorage2(image: image, imageTitle: title)
-                               
-                DispatchQueue.main.async {
-                    self.newsAvatar.image = image
-                
-                }
+
+                            
+            DispatchQueue.main.async {
+                self.newsAvatar.image = image
+                Self.imageCache.store(image: image, key: title)
+                                    
             }
         }
         task.resume()

@@ -12,7 +12,7 @@ class PoliticsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemRed
+        view.backgroundColor = .white
         
         let manager = FileManager.default
         

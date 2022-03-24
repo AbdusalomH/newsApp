@@ -10,7 +10,12 @@
 		28087ABE27A5493D004D489E /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28087ABD27A5493C004D489E /* Test.swift */; };
 		2845B96D2789FAE7004C331A /* SportNewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845B96C2789FAE7004C331A /* SportNewsCell.swift */; };
 		2845B96F278A0855004C331A /* SportsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845B96E278A0855004C331A /* SportsModel.swift */; };
-		288D572827A1178600325F4D /* DoublyLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D572727A1178600325F4D /* DoublyLinkedList.swift */; };
+		28777B0927EB3632007FCF62 /* ScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28777B0827EB3632007FCF62 /* ScrollViewController.swift */; };
+		2880F05827DB5F1D003CEBD2 /* SaveAllFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880F05727DB5F1D003CEBD2 /* SaveAllFunction.swift */; };
+		28AC6C8E27BCC9FF00137833 /* ImageCacheLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AC6C8D27BCC9FF00137833 /* ImageCacheLibrary.swift */; };
+		28AC6C9027BCCB1200137833 /* ApplicationSupportCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AC6C8F27BCCB1200137833 /* ApplicationSupportCache.swift */; };
+		28AC6C9227BCCB7100137833 /* TMPCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AC6C9127BCCB7100137833 /* TMPCache.swift */; };
+		28AC6C9427BCCBAD00137833 /* CacheLimitSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AC6C9327BCCBAD00137833 /* CacheLimitSize.swift */; };
 		28AF311E27952A5900290534 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF311D27952A5900290534 /* ImageCache.swift */; };
 		28AF312127952DFB00290534 /*  FlowlayutClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF312027952DFB00290534 /*  FlowlayutClass.swift */; };
 		28AF31232795FE8B00290534 /* NewsDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF31222795FE8B00290534 /* NewsDetails.swift */; };
@@ -35,7 +40,12 @@
 		28087ABD27A5493C004D489E /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		2845B96C2789FAE7004C331A /* SportNewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportNewsCell.swift; sourceTree = "<group>"; };
 		2845B96E278A0855004C331A /* SportsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsModel.swift; sourceTree = "<group>"; };
-		288D572727A1178600325F4D /* DoublyLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoublyLinkedList.swift; sourceTree = "<group>"; };
+		28777B0827EB3632007FCF62 /* ScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewController.swift; sourceTree = "<group>"; };
+		2880F05727DB5F1D003CEBD2 /* SaveAllFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveAllFunction.swift; sourceTree = "<group>"; };
+		28AC6C8D27BCC9FF00137833 /* ImageCacheLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheLibrary.swift; sourceTree = "<group>"; };
+		28AC6C8F27BCCB1200137833 /* ApplicationSupportCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationSupportCache.swift; sourceTree = "<group>"; };
+		28AC6C9127BCCB7100137833 /* TMPCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMPCache.swift; sourceTree = "<group>"; };
+		28AC6C9327BCCBAD00137833 /* CacheLimitSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheLimitSize.swift; sourceTree = "<group>"; };
 		28AF311D27952A5900290534 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		28AF312027952DFB00290534 /*  FlowlayutClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " FlowlayutClass.swift"; sourceTree = "<group>"; };
 		28AF31222795FE8B00290534 /* NewsDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetails.swift; sourceTree = "<group>"; };
@@ -73,6 +83,11 @@
 			isa = PBXGroup;
 			children = (
 				28AF311D27952A5900290534 /* ImageCache.swift */,
+				28AC6C8D27BCC9FF00137833 /* ImageCacheLibrary.swift */,
+				28AC6C8F27BCCB1200137833 /* ApplicationSupportCache.swift */,
+				28AC6C9127BCCB7100137833 /* TMPCache.swift */,
+				28AC6C9327BCCBAD00137833 /* CacheLimitSize.swift */,
+				2880F05727DB5F1D003CEBD2 /* SaveAllFunction.swift */,
 			);
 			path = Caching;
 			sourceTree = "<group>";
@@ -138,6 +153,7 @@
 				28F174CB277CEE4100EE0312 /* PoliticsVC.swift */,
 				28AF31222795FE8B00290534 /* NewsDetails.swift */,
 				28087ABD27A5493C004D489E /* Test.swift */,
+				28777B0827EB3632007FCF62 /* ScrollViewController.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -166,7 +182,6 @@
 				28E849EA276C969500969DAB /* NErrors.swift */,
 				28AF312027952DFB00290534 /*  FlowlayutClass.swift */,
 				28AF3124279600B800290534 /* DownloadImage.swift */,
-				288D572727A1178600325F4D /* DoublyLinkedList.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -241,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28AF311E27952A5900290534 /* ImageCache.swift in Sources */,
+				28AC6C8E27BCC9FF00137833 /* ImageCacheLibrary.swift in Sources */,
 				28AF3125279600B800290534 /* DownloadImage.swift in Sources */,
 				28F174CE277CEFD700EE0312 /* SportsVC.swift in Sources */,
 				2845B96D2789FAE7004C331A /* SportNewsCell.swift in Sources */,
@@ -248,17 +264,21 @@
 				28B79F24278AB24100B135EE /* TabbarVC.swift in Sources */,
 				28E849CC276B453D00969DAB /* AppDelegate.swift in Sources */,
 				28E849CE276B453D00969DAB /* SceneDelegate.swift in Sources */,
+				28AC6C9027BCCB1200137833 /* ApplicationSupportCache.swift in Sources */,
 				28E849D6276B453D00969DAB /* Asia_plus.xcdatamodeld in Sources */,
 				28E849EB276C969500969DAB /* NErrors.swift in Sources */,
-				288D572827A1178600325F4D /* DoublyLinkedList.swift in Sources */,
+				28777B0927EB3632007FCF62 /* ScrollViewController.swift in Sources */,
+				28AC6C9427BCCBAD00137833 /* CacheLimitSize.swift in Sources */,
 				28AF31232795FE8B00290534 /* NewsDetails.swift in Sources */,
 				28E849E9276C95E600969DAB /* NetworkManager.swift in Sources */,
 				28E849E3276B477E00969DAB /* HomeScreenVC.swift in Sources */,
+				28AC6C9227BCCB7100137833 /* TMPCache.swift in Sources */,
 				2845B96F278A0855004C331A /* SportsModel.swift in Sources */,
 				28E849E7276C4E8100969DAB /* NewsCell.swift in Sources */,
 				28AF312127952DFB00290534 /*  FlowlayutClass.swift in Sources */,
 				28087ABE27A5493D004D489E /* Test.swift in Sources */,
 				28E849E5276B714700969DAB /* NewsModel.swift in Sources */,
+				2880F05827DB5F1D003CEBD2 /* SaveAllFunction.swift in Sources */,
 				28F174CC277CEE4100EE0312 /* PoliticsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,7 +421,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HD5QFP6NH3;
 				INFOPLIST_FILE = "Asia-plus/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -421,7 +441,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HD5QFP6NH3;
 				INFOPLIST_FILE = "Asia-plus/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

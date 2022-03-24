@@ -15,7 +15,6 @@ class ImageManipulation {
         if let imgUrl = URL(string: imageUrl) {
             
             do {
-
                 let imageData = try Data(contentsOf: imgUrl)
                                 
                 return imageData

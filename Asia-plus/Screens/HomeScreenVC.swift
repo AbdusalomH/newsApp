@@ -29,43 +29,43 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
  
  override func viewDidLoad() {
         super.viewDidLoad()
+    
         title = "N E W S"
         
         configureCollectioView()
         getNews2()
         mycollectionView.refreshControl = UIRefreshControl()
         mycollectionView.refreshControl?.addTarget(self, action: #selector(getRefresh), for: .valueChanged)
+        view.backgroundColor = .systemGray5
+        navigationController?.navigationBar.tintColor = .systemBackground
         
-        navigationController?.navigationBar.barTintColor = .systemRed
         menuController()
-                
+
     }
     
+
     
     func menuController() {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage(systemName: "list.bullet"), style: .done, target: self, action: #selector(sideMenu))
         
-        navigationItem.leftBarButtonItem?.tintColor = .white
+        navigationItem.leftBarButtonItem?.tintColor = .systemGray2
     }
     
     
     @objc func sideMenu() {
         
         let sideMenu = Test()
-        
-        //let sideMenu = UINavigationController(rootViewController: Test())
-        
+                
         navigationController?.pushViewController(sideMenu, animated: true)
-        
-        //present(sideMenu, animated: true, completion: nil)
         
     }
     
     
     @objc private func getRefresh() {
-        getNews2()
+        
         DispatchQueue.main.async {
+            self.getNews2()
             self.mycollectionView.refreshControl?.endRefreshing()
             self.mycollectionView.reloadData()
         }
@@ -115,7 +115,7 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
         collectionViewPlacing()
         mycollectionView.delegate           = self
         mycollectionView.dataSource         = self
-        mycollectionView.backgroundColor    = .systemRed
+        mycollectionView.backgroundColor    = .systemGray5
         mycollectionView.register(NewsCell.self, forCellWithReuseIdentifier: NewsCell.reuseID)
         
     }
@@ -123,16 +123,20 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
     
     func collectionViewPlacing() {
         view.addSubview(mycollectionView)
+        
         mycollectionView.translatesAutoresizingMaskIntoConstraints = false
         
+        let padding: CGFloat = 10
+        
         NSLayoutConstraint.activate([
-            mycollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            mycollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            mycollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            mycollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            mycollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
+            mycollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: padding),
+            mycollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
+            mycollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -padding)
         ])
     }
 
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return getNewsText.count
     
@@ -145,24 +149,22 @@ class HomeScreenVC: UIViewController, UICollectionViewDelegate, UICollectionView
         let newshere        = self.getNewsText[indexPath.item]
         cell.newsText.text  = newshere.title
         cell.downloadImage(data: newshere.urlToImage, title: newshere.title)
+        
+    
         return cell
         
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         let newsData = getNewsText[indexPath.row]
-        let newsDetails = NewsDetails(imageName: newsData.title, dataofImage: newsData.urlToImage!)
-        navigationController?.pushViewController(newsDetails, animated: true)
-    }
-    
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
+        guard let receivedImage = newsData.urlToImage else {return}
+//        let newsDetails = NewsDetails(imageName: newsData.title, dataofImage: receivedImage)
+//        navigationController?.pushViewController(newsDetails, animated: true)
         
-        guard previousTraitCollection?.horizontalSizeClass != previousTraitCollection?.verticalSizeClass else {return}
-        
-        
+        let newsDetail = ScrollViewController(imageName: receivedImage)
+        navigationController?.pushViewController(newsDetail, animated: true)
     }
 }
 

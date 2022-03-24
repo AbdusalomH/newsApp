@@ -9,42 +9,115 @@ import UIKit
 
 class Test: UIViewController {
     
-    let leftView = UIView()
-    let rightView = UIView()
+    let yellowView = UIView()
+    let redView = UIView()
+        
+    
+    var regularConstraints1 = [NSLayoutConstraint]()
+    var compactConstraints1 = [NSLayoutConstraint]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureViews()
+        
+        //configureViews()
         view.backgroundColor = .systemBackground
-
+        addToViews()
+        enableConstraintsForWidth(horizontalSizeClass: traitCollection.horizontalSizeClass)
     }
     
-    func configureViews() {
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        view.addSubview(leftView)
-        view.addSubview(rightView)
-        
-        leftView.backgroundColor = .yellow
-        rightView.backgroundColor = .red
-        
-        leftView.translatesAutoresizingMaskIntoConstraints = false
-        rightView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            
-            leftView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
-            leftView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
-            leftView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5),
-            leftView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.48),
-            
-            rightView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
-            rightView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            rightView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5),
-            rightView.widthAnchor.constraint(equalTo: leftView.widthAnchor),
-
-        
-        ])
         
     }
+    
+
+    func addToViews() {
+        
+        view.addSubview(yellowView)
+        view.addSubview(redView)
+        
+        yellowView.backgroundColor = .yellow
+        redView.backgroundColor = .red
+        
+        yellowView.translatesAutoresizingMaskIntoConstraints = false
+        redView.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+ 
+    }
+
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass {
+            enableConstraintsForWidth(horizontalSizeClass: traitCollection.horizontalSizeClass)
+        }
+    }
+    
+    
+    func compactConstraints() -> [NSLayoutConstraint] {
+ 
+        self.compactConstraints1.append(yellowView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10))
+        self.compactConstraints1.append(yellowView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
+        self.compactConstraints1.append(yellowView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10))
+        self.compactConstraints1.append(yellowView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4))
+        
+        
+        self.compactConstraints1.append(redView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10))
+        self.compactConstraints1.append(redView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10))
+        self.compactConstraints1.append(redView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10))
+        self.compactConstraints1.append(redView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.40))
+        
+        return compactConstraints1
+        
+        }
+    
+    
+    func regularContraints () -> [NSLayoutConstraint] {
+        
+        self.regularConstraints1.append(yellowView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10))
+        self.regularConstraints1.append(yellowView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
+        self.regularConstraints1.append(yellowView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10))
+        self.regularConstraints1.append(yellowView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.5, constant: -30))
+        
+        
+        self.regularConstraints1.append(redView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10))
+        self.regularConstraints1.append(redView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10))
+        self.regularConstraints1.append(redView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
+        //self.regularConstraints1.append(redView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.5, constant: -30))
+        self.regularConstraints1.append(redView.topAnchor.constraint(equalTo: yellowView.bottomAnchor, constant: 20))
+        
+
+        return regularConstraints1
+        
+    }
+    
+    
+    func enableConstraintsForWidth(horizontalSizeClass: UIUserInterfaceSizeClass) {
+        
+        if horizontalSizeClass == .compact {
+            
+            print("Portrait mode")
+            
+            NSLayoutConstraint.deactivate(regularContraints())
+            NSLayoutConstraint.activate(compactConstraints())
+            
+        } else {
+            print("Landscape mode")
+            NSLayoutConstraint.deactivate(compactConstraints())
+            NSLayoutConstraint.activate(regularContraints())
+            
+        }
+    
+    }
+    
+    
+//    override func viewDidLayoutSubviews() {
+//        enableConstraintsForWidth(horizontalSizeClass: traitCollection.horizontalSizeClass)
+//    }
+    
 }
+

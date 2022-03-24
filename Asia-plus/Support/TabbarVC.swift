@@ -17,8 +17,7 @@ class TabbarVC: UITabBarController {
         super.viewDidLoad()
         
         viewControllers = [mainVC(), navBarPolitics(), navBarSports()]
-        tabBar.tintColor = .red
-
+        navigationController?.navigationBar.tintColor = .systemGray2
     }
     
     func navBarPolitics() -> UINavigationController {

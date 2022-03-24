@@ -17,9 +17,13 @@ class SportsVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "S p o r t s"
+        
         configureCollectioView()
+        placeCollectioView()
         getSporstNews()
-        navigationController?.navigationBar.barTintColor = .systemRed
+        
+        view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.barTintColor = .systemBackground
         collectioView.refreshControl = UIRefreshControl()
         collectioView.refreshControl?.addTarget(self, action: #selector(reloadNews), for: .valueChanged)
     }
@@ -52,12 +56,30 @@ class SportsVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     func configureCollectioView() {
         
-        collectioView = UICollectionView(frame: view.bounds, collectionViewLayout: FlowlayutClass.flowLayoutConfigure(in: view))
-        view.addSubview(collectioView)
+        collectioView = UICollectionView(frame: .zero, collectionViewLayout: FlowlayutClass.flowLayoutConfigure(in: view))
+        
         collectioView.delegate = self
         collectioView.dataSource = self
-        collectioView.backgroundColor = .systemRed
+        collectioView.backgroundColor = .systemGray2
         collectioView.register(SportNewsCell.self, forCellWithReuseIdentifier: SportNewsCell.reuseID)
+    }
+    
+    
+    func placeCollectioView() {
+        
+        view.addSubview(collectioView)
+        
+        collectioView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let padding: CGFloat = 10
+        
+        NSLayoutConstraint.activate([
+            collectioView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
+            collectioView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: padding),
+            collectioView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
+            collectioView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -padding)
+        ])
+        
     }
     
     
